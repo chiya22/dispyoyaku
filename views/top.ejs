@@ -6,12 +6,12 @@
   </head>
 
   <body>
-    <div class="waku">
+    <div class="waku first">
       <table>
         <tr>
           <td>
             <img
-              src="./images/meeting.png"
+              src="/static/images/meeting.png"
               width="43"
               height="43"
               alt="meeting"
@@ -38,16 +38,14 @@
           <tr>
             <% yoyakus.forEach( (yoyaku, index, arr) => { %>
           </tr>
-          <%
-              let cssname = (index % 2 === 0) ? 'item_2' :'item_3';
-              let groupno = Math.floor(index/14 );
-          %>
-         <tr class=<%= groupno %>>
-            <td class=<%= cssname %>><%= yoyaku.nm_user %></td>
-            <td class=<%= cssname %> width="140px"><%= yoyaku.nm_room %></td>
-            <td class=<%= cssname %> width="130px"><%= yoyaku.time %></td>
+          <% let cssname = (index % 2 === 0) ? 'item_2' :'item_3'; let groupno =
+          Math.floor(index/14 ); %>
+          <tr class="<%= groupno %>" >
+            <td class="<%= cssname %>"><%= yoyaku.nm_user %></td>
+            <td class="<%= cssname %>" width="140px"><%= yoyaku.nm_room %></td>
+            <td class="<%= cssname %>" width="130px"><%= yoyaku.time %></td>
           </tr>
-        <% }) %>
+          <% }) %>
         </table>
         <table class="table_2">
           <tr>
@@ -59,26 +57,327 @@
       </div>
     </div>
 
-    <script>
-      let dispgrouNo = 0;
-      const initrows = document.getElementsByTagName('tr');
-      for (let i=15; i<initrows.length-1; i++) {
-        initrows[i].style.visibility = "collapse"
-      }
-      const changeGroup = () => {
-        const hiddens = document.getElementsByClassName(dispgrouNo);
-        for (let i=0; i<hiddens.length; i++) {
-          hiddens[i].style.visibility = "collapse"
-        }
-        const disps = document.getElementsByClassName(dispgrouNo+1);
-        for (let i=0; i<disps.length; i++) {
-          disps[i].style.visibility = "visible"
-        }
-        dispgrouNo += 1;
-        
-      };
+    <!-- ◆　4階、5階　-->
+    <div class="waku second">
+      <table>
+        <tr>
+          <td>
+            <img
+              src="/static/images/meeting.png"
+              width="43"
+              height="43"
+              alt="meeting"
+            />
+          </td>
+          <td width="380px">
+            <span class="title_1">フロア情報(4階・5階)</span><br />
+            <span class="title_2">Floor Information（4F/5F)</span>
+          </td>
+          <td class="day_waku">
+            <span id="clock_a"></span>
+            2021/02/11 11:57
+          </td>
+        </tr>
+      </table>
+      <div>&nbsp;</div>
+      <div class="waku_1">
+        <div class="waku_4">
+          <div class="item_4">4F</div>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="room_no">401</td>
+              <td class="reserve_time"></td>
+            </tr>
+            <tr>
+              <td class="reserve_user" colspan="2"></td>
+            </tr>
+          </table>
+          <div>&nbsp;</div>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="room_no">402</td>
+              <td class="reserve_time">09:00～18:00</td>
+            </tr>
+            <tr>
+              <td class="reserve_user" colspan="2">
+                株式会社ライフスタイル・ウーマン
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="waku_5">
+          <div class="item_4">5F</div>
+          <div style="float: left; margin-right: 20px">
+            <div class="sp_waku">&nbsp;</div>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">504</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">505</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">506</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>
+              <img
+                src="/static/images/monitor.png"
+                width="41"
+                height="24"
+                alt="モニター"
+              />
+            </div>
+          </div>
+          <div style="float: left">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">500</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">501</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">502</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">503</td>
+                <td class="reserve_time">12:00～14:00</td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2">A2lab合同会社</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <table class="table_2">
+        <tr>
+          <td class="table_2off">本日の会議室一覧</td>
+          <td class="table_2on">フロア情報（4階・5階）</td>
+          <td class="table_2off">フロア情報（地下）</td>
+        </tr>
+      </table>
+    </div>
 
-      const timer = setInterval(changeGroup, 15000);
+    <!-- ◆地下　-->
+    <div class="waku third">
+      <table>
+        <tr>
+          <td>
+            <img
+              src="/static/images/meeting.png"
+              width="43"
+              height="43"
+              alt="meeting"
+            />
+          </td>
+          <td width="380px">
+            <span class="title_1">フロア情報(地下)</span><br />
+            <span class="title_2">Floor Information（B1F)</span>
+          </td>
+          <td class="day_waku">
+            <span id="clock"></span>
+            2021/02/11 17:52
+          </td>
+        </tr>
+      </table>
+      <div>&nbsp;</div>
+      <div class="waku_1">
+        <div class="waku_7">
+          <div class="item_5">プロジェクトルーム</div>
+          <div style="float: left; margin-right: 35px">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">012</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">015</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+          </div>
+          <div style="float: left; margin-right: 5px">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">011</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">014</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="waku_6">
+          <div class="item_4">地下</div>
+          <div style="float: left; margin-right: 30px">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">003</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">004</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">005</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+          </div>
+          <div style="float: left; margin-right: 25px">
+            <div class="sp_waku">&nbsp;</div>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">ﾌﾟﾚｾﾞﾝ</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div align="left">
+              <img
+                src="/static/images/monitor.png"
+                width="41"
+                height="24"
+                alt="モニター"
+              />
+            </div>
+          </div>
+          <div style="float: left; margin-right: 5px">
+            <div class="sp_waku">&nbsp;</div>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">002</td>
+                <td class="reserve_time"></td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2"></td>
+              </tr>
+            </table>
+            <div>&nbsp;</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no">001</td>
+                <td class="reserve_time">09:00～19:00</td>
+              </tr>
+              <tr>
+                <td class="reserve_user" colspan="2">
+                  プラットフォームサービス株式会社
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <table class="table_3">
+        <tr>
+          <td class="table_2off">本日の会議室一覧</td>
+          <td class="table_2off">フロア情報（4階・5階）</td>
+          <td class="table_2on">フロア情報（地下）</td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      // let dispgrouNo = 0;
+      // const initrows = document.getElementsByTagName("tr");
+      // for (let i = 15; i < initrows.length - 1; i++) {
+      //   initrows[i].style.visibility = "collapse";
+      // }
+      // const changeGroup = () => {
+      //   const hiddens = document.getElementsByClassName(dispgrouNo);
+      //   for (let i = 0; i < hiddens.length; i++) {
+      //     hiddens[i].style.visibility = "collapse";
+      //   }
+      //   const disps = document.getElementsByClassName(dispgrouNo + 1);
+      //   for (let i = 0; i < disps.length; i++) {
+      //     disps[i].style.visibility = "visible";
+      //   }
+      //   dispgrouNo += 1;
+      // };
+
+      // const timer = setInterval(changeGroup, 15000);
     </script>
   </body>
 </html>

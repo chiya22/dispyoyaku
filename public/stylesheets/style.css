@@ -302,3 +302,7 @@ body {
 	right: 0px;
 	bottom: -373px;
 }
+
+.second, .third {
+	margin-top: 100px;
+}
