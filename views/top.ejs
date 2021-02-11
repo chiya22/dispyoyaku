@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>当日予約状況</title>
+    <%- include("./common/stylesheets.ejs") %>
+  </head>
+
+  <body>
+    <div class="waku">
+      <table>
+        <tr>
+          <td>
+            <img
+              src="./images/meeting.png"
+              width="43"
+              height="43"
+              alt="meeting"
+            />
+          </td>
+          <td width="380px">
+            <span class="title_1">本日の会議室一覧</span><br />
+            <span class="title_2">Meeting Room Information</span>
+          </td>
+          <td class="day_waku">
+            <span id="clock"></span>
+            2021/02/11 13:51
+          </td>
+        </tr>
+      </table>
+      <div>&nbsp;</div>
+      <div class="waku_1">
+        <table border="0" cellpadding="0" cellspacing="1" class="table_1">
+          <tr>
+            <td class="item_1">ご予約者名</td>
+            <td class="item_1" width="140px">会議室</td>
+            <td class="item_1" width="130px">時間</td>
+          </tr>
+          <tr>
+            <% yoyakus.forEach( (yoyaku, index, arr) => { %>
+          </tr>
+          <%
+              let cssname = (index % 2 === 0) ? 'item_2' :'item_3';
+              let groupno = Math.floor(index/14 );
+          %>
+         <tr class=<%= groupno %>>
+            <td class=<%= cssname %>><%= yoyaku.nm_user %></td>
+            <td class=<%= cssname %> width="140px"><%= yoyaku.nm_room %></td>
+            <td class=<%= cssname %> width="130px"><%= yoyaku.time %></td>
+          </tr>
+        <% }) %>
+        </table>
+        <table class="table_2">
+          <tr>
+            <td class="table_2on">本日の会議室一覧</td>
+            <td class="table_2off">フロア情報（4階・5階）</td>
+            <td class="table_2off">フロア情報（地下）</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      let dispgrouNo = 0;
+      const initrows = document.getElementsByTagName('tr');
+      for (let i=15; i<initrows.length-1; i++) {
+        initrows[i].style.visibility = "collapse"
+      }
+      const changeGroup = () => {
+        const hiddens = document.getElementsByClassName(dispgrouNo);
+        for (let i=0; i<hiddens.length; i++) {
+          hiddens[i].style.visibility = "collapse"
+        }
+        const disps = document.getElementsByClassName(dispgrouNo+1);
+        for (let i=0; i<disps.length; i++) {
+          disps[i].style.visibility = "visible"
+        }
+        dispgrouNo += 1;
+        
+      };
+
+      const timer = setInterval(changeGroup, 15000);
+    </script>
+  </body>
+</html>

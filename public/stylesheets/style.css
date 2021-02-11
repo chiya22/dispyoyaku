@@ -1,0 +1,304 @@
+@charset "euc-jp";
+/* CSS Document */
+
+body {
+	background-color: #19170c;
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	color: #FFF;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.waku {
+	padding: 0px;
+	height: 480px;
+	width: 640px;
+	margin-top: 15px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
+
+.waku_1 {
+	height: 410px;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.title_1 {
+	font-size: 26px;
+	font-weight: normal;
+	color: #cdcfbc;
+	text-align: left;
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+	line-height: 24px;
+}
+
+.title_2 {
+	font-size: 18px;
+	font-weight: normal;
+	color: #a2ab86;
+	text-align: left;
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+	line-height: 18px;
+	font-family: "Century Gothic";
+}
+
+.day_waku {
+	color: #cdcfbc;
+	border: 2px solid #cdcfbc;
+	font-size: 22px;
+	height: auto;
+	width: 250px;
+	text-align: center;
+}
+
+.table_1 {
+	background-color: #FFF;
+	margin: 0px;
+	padding: 0px;
+	height: auto;
+	width: 100%;
+}
+
+.table_2 {
+	background-color: #313031;
+	margin: 0px;
+	padding: 0px;
+	height: auto;
+	width: 100%;
+	border: 1px solid #FFF;
+}
+
+.table_2on {
+	font-size: 18px;
+	text-align: center;
+	margin: 0px;
+	width: 33%;
+	padding-top: 3px;
+	padding-right: 0px;
+	padding-bottom: 3px;
+	padding-left: 0px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #F00;
+}
+
+.table_2off {
+	font-size: 18px;
+	text-align: center;
+	margin: 0px;
+	width: 33%;
+	padding-top: 3px;
+	padding-right: 0px;
+	padding-bottom: 3px;
+	padding-left: 0px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #313031;
+}
+
+.table_3 {
+	background-color: #313031;
+	padding: 0px;
+	height: auto;
+	width: 100%;
+	border: 1px solid #FFF;
+	margin: 0px;
+	position: relative;
+	top: -53px;
+}
+
+.item_1 {
+	font-size: 18px;
+	color: #FFF;
+	background-color: #183021;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+
+.item_2 {
+	font-size: 16px;
+	color: #000;
+	background-color: #7a857d;
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 1px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	text-align: left;
+}
+
+.item_3 {
+	font-size: 16px;
+	color: #000;
+	background-color: #adabad;
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 1px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	text-align: left;
+}
+
+.item_4 { /*４Ｆ、５Ｆ左上表示枠 */
+	text-align: center;
+	padding: 3px;
+	height: 27px;
+	width: 60px;
+	margin-top: -20px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	background-color: #183021;
+	font-size: 22px;
+	font-family: "Century Gothic";
+	color: #F8F8F8;
+}
+
+.item_5 { /*プロジェクトルーム文字枠 */
+	text-align: center;
+	padding: 3px;
+	height: 27px;
+	width: 180px;
+	margin-top: -20px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	background-color: #183021;
+	font-size: 18px;
+	color: #F8F8F8;
+}
+
+.room_no {
+	font-size: 18px;
+	font-family: "Century Gothic";
+	background-color: #183021;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	height: 25px;
+	width: 65px;
+}
+
+.reserve_time {
+	text-align: center;
+	color: #000;
+	font-size: 16px;
+	font-family: "Century Gothic";
+	background-color: #5e6660;
+	margin: 0px;
+	padding: 0px;
+	height: 25px;
+	width: 110px;
+}
+
+.reserve_user {
+	font-size: 16px;
+	color: #000;
+	background-color: #adabad;
+	text-align: left;
+	margin: 0px;
+	padding: 3px;
+	height: 30px;
+	width: 170px;
+	line-height: 16px;
+}
+
+.sp_waku {
+	height: 63px;
+	width: 190px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.waku_4 {
+	float: left;
+	height: 195px;
+	width: 200px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	text-align: center;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+
+.waku_5 {
+	float: left;
+	height: 374px;
+	width: 400px;
+	border: 2px solid #CCC;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 9px;
+	text-align: center;
+	border-radius: 10px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+}
+
+.waku_6 {
+	height: 279px;
+	width: 620px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	text-align: center;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 13px;
+	z-index: 0;
+	float: none;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	position: relative;
+	top: -90px;
+}
+
+.waku_7 {
+	height: 190px;
+	width: 410px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	text-align: center;
+	background-color: #19170c;
+	float: none;
+	z-index: 99;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 13px;
+	margin: 0px;
+	position: relative;
+	left: 210px;
+	top: 10px;
+	right: 0px;
+	bottom: -373px;
+}

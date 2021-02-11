@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= message %>(<%= error.status %>)</title>
+</head>
+
+<body>
+    <div class="container-top">
+        <div class="header">
+            <div class="header__title">
+                <h1><%= message %>（<%= error.status %>）</h1>
+            </div>
+        </div>
+        <div class="stacktrace">
+            <% if (error.status === 404) { %>
+            <p>指定されたページは存在しません。</p>
+            <% } else if (error.status === 403) { %>
+            <p>承認されていません。</p>
+            <% }else{ %>
+            <p>何らかのエラーが発生しました。管理者へお知らせください。</p>
+            <% }; %>
+            <pre>
+                <%= error.stacktrace %>
+            </pre>
+        </div>
+    </div>
+    <a href="/">戻る</a>
+</body>
+
+</html>
