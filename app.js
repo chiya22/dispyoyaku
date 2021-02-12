@@ -24,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 app.use('/top', topRouter);
 
+const cron = require('./util/cron')
+cron.startcron();
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

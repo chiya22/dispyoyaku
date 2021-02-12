@@ -13,6 +13,12 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "iconv-lite": "^0.6.2",
+    "knex": "^0.21.17",
+    "log4js": "^6.3.0",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "node-cron": "^2.0.3",
+    "puppeteer": "^7.0.4"
   }
 }

@@ -41,9 +41,9 @@
           <% let cssname = (index % 2 === 0) ? 'item_2' :'item_3'; let groupno =
           Math.floor(index/14 ); %>
           <tr class="<%= groupno %>" >
-            <td class="<%= cssname %>"><%= yoyaku.nm_user %></td>
+            <td class="<%= cssname %>"><%= yoyaku.time %></td>
             <td class="<%= cssname %>" width="140px"><%= yoyaku.nm_room %></td>
-            <td class="<%= cssname %>" width="130px"><%= yoyaku.time %></td>
+            <td class="<%= cssname %>" width="130px"><%= yoyaku.nm_user %></td>
           </tr>
           <% }) %>
         </table>
@@ -86,22 +86,20 @@
           <table border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td class="room_no">401</td>
-              <td class="reserve_time"></td>
+              <td class="reserve_time"><%= floor.room401.nm_user %></td>
             </tr>
             <tr>
-              <td class="reserve_user" colspan="2"></td>
+              <td class="reserve_user" colspan="2"><%= floor.room401.time %></td>
             </tr>
           </table>
           <div>&nbsp;</div>
           <table border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td class="room_no">402</td>
-              <td class="reserve_time">09:00～18:00</td>
+              <td class="reserve_time"><%= floor.room402.nm_user %></td>
             </tr>
             <tr>
-              <td class="reserve_user" colspan="2">
-                株式会社ライフスタイル・ウーマン
-              </td>
+              <td class="reserve_user" colspan="2"><%= floor.room402.time %></td>
             </tr>
           </table>
         </div>
@@ -113,30 +111,30 @@
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">504</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room504.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room504.time %></td>
               </tr>
             </table>
             <div>&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">505</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room505.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room505.time %></td>
               </tr>
             </table>
             <div>&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">506</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room506.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room506.time %></td>
               </tr>
             </table>
             <div>
@@ -152,40 +150,40 @@
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">500</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room500.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room500.time %></td>
               </tr>
             </table>
             <div>&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">501</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room501.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room501.time %></td>
               </tr>
             </table>
             <div>&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">502</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room502.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room502.time %></td>
               </tr>
             </table>
             <div>&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">503</td>
-                <td class="reserve_time">12:00～14:00</td>
+                <td class="reserve_time"><%= floor.room503.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2">A2lab合同会社</td>
+                <td class="reserve_user" colspan="2"><%= floor.room503.time %></td>
               </tr>
             </table>
           </div>
@@ -224,94 +222,108 @@
       </table>
       <div>&nbsp;</div>
       <div class="waku_1">
+
         <div class="waku_7">
           <div class="item_5">プロジェクトルーム</div>
-          <div style="float: left; margin-right: 35px">
+          <div style="float: left; margin-right: 20px">
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="room_no">012</td>
-                <td class="reserve_time"></td>
+                <td class="room_no_prj">012</td>
+                <td class="reserve_time_prj"><%= floor.room012.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user_prj" colspan="2"><%= floor.room012.time %></td>
               </tr>
             </table>
-            <div>&nbsp;</div>
+            <div class="upd_prj">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="room_no">015</td>
-                <td class="reserve_time"></td>
+                <td class="room_no_prj">015</td>
+                <td class="reserve_time_prj"><%= floor.room015.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user_prj" colspan="2"><%= floor.room015.time %></td>
               </tr>
             </table>
           </div>
-          <div style="float: left; margin-right: 5px">
+          <div style="float: left; margin-right: 20px">
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="room_no">011</td>
-                <td class="reserve_time"></td>
+                <td class="room_no_prj">011</td>
+                <td class="reserve_time_prj"><%= floor.room011.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user_prj" colspan="2"><%= floor.room011.time %></td>
               </tr>
             </table>
-            <div>&nbsp;</div>
+            <div class="upd_prj">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="room_no">014</td>
-                <td class="reserve_time"></td>
+                <td class="room_no_prj">014</td>
+                <td class="reserve_time_prj"><%= floor.room014.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user_prj" colspan="2"><%= floor.room014.time %></td>
+              </tr>
+            </table>
+          </div>
+          <div style="float: left; margin-top: 79px; margin-right: 5px">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="room_no_prj">013</td>
+                <td class="reserve_time_prj"><%= floor.room013.nm_user %></td>
+              </tr>
+              <tr>
+                <td class="reserve_user_prj" colspan="2"><%= floor.room013.time %></td>
               </tr>
             </table>
           </div>
         </div>
+
         <div class="waku_6">
           <div class="item_4">地下</div>
           <div style="float: left; margin-right: 30px">
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">003</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room003.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room003.time %></td>
               </tr>
             </table>
-            <div>&nbsp;</div>
+            <div class="upd">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">004</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room004.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room004.time %></td>
               </tr>
             </table>
-            <div>&nbsp;</div>
+            <div class="upd">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">005</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room005.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room005.time %></td>
               </tr>
             </table>
           </div>
+
           <div style="float: left; margin-right: 25px">
             <div class="sp_waku">&nbsp;</div>
-            <div>&nbsp;</div>
+            <div class="upd">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">ﾌﾟﾚｾﾞﾝ</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.roomprezen.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.roomprezen.time %></td>
               </tr>
             </table>
             <div align="left">
@@ -323,31 +335,31 @@
               />
             </div>
           </div>
+
           <div style="float: left; margin-right: 5px">
             <div class="sp_waku">&nbsp;</div>
-            <div>&nbsp;</div>
+            <div class="upd">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">002</td>
-                <td class="reserve_time"></td>
+                <td class="reserve_time"><%= floor.room002.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2"></td>
+                <td class="reserve_user" colspan="2"><%= floor.room002.time %></td>
               </tr>
             </table>
-            <div>&nbsp;</div>
+            <div class="upd">&nbsp;</div>
             <table border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="room_no">001</td>
-                <td class="reserve_time">09:00～19:00</td>
+                <td class="reserve_time"><%= floor.room001.nm_user %></td>
               </tr>
               <tr>
-                <td class="reserve_user" colspan="2">
-                  プラットフォームサービス株式会社
-                </td>
+                <td class="reserve_user" colspan="2"><%= floor.room001.time %></td>
               </tr>
             </table>
           </div>
+
         </div>
       </div>
       <table class="table_3">
