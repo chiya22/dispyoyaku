@@ -6,7 +6,20 @@ const logger = log4js.configure('./config/log4js-config.json').getLogger();
 
 const findAll = (callback) => {
     (async () => {
-        const query = 'SELECT * FROM dispyoyakus ORDER BY time_start, time_end, no_room)';
+        const query = 'SELECT * FROM dispyoyakus ORDER BY time_start, no_room, time_end)';
+        await client.raw(query)
+            .then((retObj) => {
+                callback(null, retObj);
+            })
+            .catch((err) => {
+                callback(err, null);
+            })
+    })();
+};
+
+const findByTime= ( time_start, callback) => {
+    (async () => {
+        const query = 'SELECT * FROM dispyoyakus where time_start >= ' + Number(time_start) + ' ORDER BY time_start, no_room, time_end';
         await client.raw(query)
             .then((retObj) => {
                 callback(null, retObj);
@@ -50,6 +63,7 @@ const deleteAll = (callback) => {
 
 module.exports = {
     findAll,
+    findByTime,
     insert,
     deleteAll,
 };

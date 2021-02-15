@@ -1,171 +1,190 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const dispyoyaku = require('../model/dispyoyaku');
 
 router.get('/', function (req, res) {
-  info = {
-    page: 2,
-  }
-  floor = {
-    room401: {
-      time:'吉田テスト１０１２３４５６７８９０１２３',
-      nm_user:'10:00-17:00',
-    },
-    room402: {
-      time:'吉田テスト２',
-      nm_user:'10:00-17:00',
-    },
-    room500: {
-      time:'吉田テスト３',
-      nm_user:'10:00-17:00',
-    },
-    room501: {
-      time:'吉田テスト４',
-      nm_user:'10:00-17:00',
-    },
-    room502: {
-      time:'吉田テスト５',
-      nm_user:'10:00-17:00',
-    },
-    room503: {
-      time:'吉田テスト６',
-      nm_user:'10:00-17:00',
-    },
-    room504: {
-      time:'吉田テスト７',
-      nm_user:'10:00-17:00',
-    },
-    room505: {
-      time:'吉田テスト８',
-      nm_user:'10:00-17:00',
-    },
-    room506: {
-      time:'吉田テスト９',
-      nm_user:'10:00-17:00',
-    },
-    room001: {
-      time:'吉田テストＡ',
-      nm_user:'10:00-17:00',
-    },
-    room002: {
-      time:'吉田テストＢ',
-      nm_user:'10:00-17:00',
-    },
-    room003: {
-      time:'吉田テストＣ',
-      nm_user:'10:00-17:00',
-    },
-    room004: {
-      time:'吉田テストＤ',
-      nm_user:'10:00-17:00',
-    },
-    room005: {
-      time:'吉田テストＥ',
-      nm_user:'10:00-17:00',
-    },
-    room011: {
-      time:'吉田テストＦ０１２３４５６７８９',
-      nm_user:'10:00-17:00',
-    },
-    room012: {
-      time:'吉田テストＧ',
-      nm_user:'10:00-17:00',
-    },
-    room013: {
-      time:'吉田テストＨ',
-      nm_user:'10:00-17:00',
-    },
-    room014: {
-      time:'吉田テストＩ',
-      nm_user:'10:00-17:00',
-    },
-    room015: {
-      time:'吉田テストＪ',
-      nm_user:'10:00-17:00',
-    },
-    roomprezen: {
-      time:'吉田テストＫ',
-      nm_user:'10:00-17:00',
-    },
-  }
-  yoyakus = [
-    {
-      nm_user: '吉田テスト１',
-      nm_room: '会議室500',
-      time: '9:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト２',
-      nm_room: '会議室501',
-      time: '10:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト３',
-      nm_room: '会議室502',
-      time: '11:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト４',
-      nm_room: '会議室503',
-      time: '12:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト５',
-      nm_room: '会議室504',
-      time: '13:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト６',
-      nm_room: '会議室500',
-      time: '9:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト７',
-      nm_room: '会議室501',
-      time: '10:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト８',
-      nm_room: '会議室502',
-      time: '11:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト９',
-      nm_room: '会議室503',
-      time: '12:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト１０',
-      nm_room: '会議室504',
-      time: '13:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト１１',
-      nm_room: '会議室500',
-      time: '9:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト１２',
-      nm_room: '会議室501',
-      time: '10:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト１３',
-      nm_room: '会議室502',
-      time: '11:00-17:00',
-    },
-    {
-      nm_user: '吉田テスト１４',
-      nm_room: '会議室503',
-      time: '12:00-17:00',
-    },
-  ];
 
-  res.render('top', {
-    info: info,
-    yoyakus : yoyakus,
-    floor: floor,
+  const time_cur = new Date().getHours();
+  dispyoyaku.findByTime(time_cur,(err, retObj) => {
+
+    let floor = initfloorinfo();
+    const yoyakus = retObj[0];
+
+    if (yoyakus.length !== 0) {
+  
+      yoyakus.forEach((yoyaku) => {
+        if (yoyaku.no_room === 401) {
+          floor.room401.time = yoyaku.nm_disp;
+          floor.room401.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 402) {
+          floor.room402.time = yoyaku.nm_disp;
+          floor.room402.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 500) {
+          floor.room500.time = yoyaku.nm_disp;
+          floor.room500.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 501) {
+          floor.room501.time = yoyaku.nm_disp;
+          floor.room501.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 502) {
+          floor.room502.time = yoyaku.nm_disp;
+          floor.room502.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 503) {
+          floor.room503.time = yoyaku.nm_disp;
+          floor.room503.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 504) {
+          floor.room504.time = yoyaku.nm_disp;
+          floor.room504.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 505) {
+          floor.room505.time = yoyaku.nm_disp;
+          floor.room505.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 506) {
+          floor.room506.time = yoyaku.nm_disp;
+          floor.room506.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 1) {
+          floor.room001.time = yoyaku.nm_disp;
+          floor.room001.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 2) {
+          floor.room002.time = yoyaku.nm_disp;
+          floor.room002.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 3) {
+          floor.room003.time = yoyaku.nm_disp;
+          floor.room003.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 4) {
+          floor.room004.time = yoyaku.nm_disp;
+          floor.room004.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 5) {
+          floor.room005.time = yoyaku.nm_disp;
+          floor.room005.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 10) {
+          floor.roomprezen.time = yoyaku.nm_disp;
+          floor.roomprezen.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 11) {
+          floor.room011.time = yoyaku.nm_disp;
+          floor.room011.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 12) {
+          floor.room012.time = yoyaku.nm_disp;
+          floor.room012.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 13) {
+          floor.room013.time = yoyaku.nm_disp;
+          floor.room013.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 14) {
+          floor.room014.time = yoyaku.nm_disp;
+          floor.room014.nm_user = yoyaku.time_riyou;
+        } else if (yoyaku.no_room === 15) {
+          floor.room015.time = yoyaku.nm_disp;
+          floor.room015.nm_user = yoyaku.time_riyou;
+        }
+      })
+    }
+
+    const page = Math.ceil(yoyakus.length/14);
+    const yoyakurowcount = yoyakus.length;
+    const rowcount = page * 14;
+    for (let i=0; i<rowcount; i++) {
+      if ((yoyakurowcount -1) < i) {
+        yoyakus[i] = {
+          name_disp: '　',
+          time_riyou: '　',
+          nm_room: '　'
+        }
+      }
+    }
+  
+    res.render('top', {
+      page:page,
+      yoyakus: yoyakus,
+      floor: floor,
+    });
+
   });
 
 });
+
+const initfloorinfo = () => {
+  return floor =
+  {
+    room401: {
+      time: '　',
+      nm_user: '　',
+    },
+    room402: {
+      time: '　',
+      nm_user: '　',
+    },
+    room500: {
+      time: '　',
+      nm_user: '　',
+    },
+    room501: {
+      time: '　',
+      nm_user: '　',
+    },
+    room502: {
+      time: '　',
+      nm_user: '　',
+    },
+    room503: {
+      time: '　',
+      nm_user: '　',
+    },
+    room504: {
+      time: '　',
+      nm_user: '　',
+    },
+    room505: {
+      time: '　',
+      nm_user: '　',
+    },
+    room506: {
+      time: '　',
+      nm_user: '　',
+    },
+    room001: {
+      time: '　',
+      nm_user: '　',
+    },
+    room002: {
+      time: '　',
+      nm_user: '　',
+    },
+    room003: {
+      time: '　',
+      nm_user: '　',
+    },
+    room004: {
+      time: '　',
+      nm_user: '　',
+    },
+    room005: {
+      time: '　',
+      nm_user: '　',
+    },
+    room011: {
+      time: '　',
+      nm_user: '　',
+    },
+    room012: {
+      time: '　',
+      nm_user: '　',
+    },
+    room013: {
+      time: '　',
+      nm_user: '　',
+    },
+    room014: {
+      time: '　',
+      nm_user: '　',
+    },
+    room015: {
+      time: '　',
+      nm_user: '　',
+    },
+    roomprezen: {
+      time: '　',
+      nm_user: '　',
+    },
+  }
+}
 
 module.exports = router;
