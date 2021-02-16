@@ -16,8 +16,7 @@ const login_passwd = '';
 const startcron = () => {
 
     // 会議室　予約情報ダウンロード
-    cron.schedule('55 * * * 1-5', () => {
-
+    cron.schedule('57 * * * *', () => {
 
         (async () => {
 
@@ -144,7 +143,7 @@ const startcron = () => {
     })
 
     // 会議室　利用者情報取込
-    cron.schedule('57 * * * 1-5', () => {
+    cron.schedule('59 * * * *', () => {
 
         // ダウンロードディレクトリにあるcsvファイルを取得する
         let targetfilename = "";
@@ -191,6 +190,7 @@ const startcron = () => {
 
                                 inObj.ymd_riyou = linecontents[1].replace(/-/g, '');;
                                 inObj.nm_room = linecontents[4];
+                                // 部屋番号を設定
                                 if (linecontents[4] === '会議室401') {
                                     no_room = 401;
                                 } else if (linecontents[4] === '会議室402') {

@@ -6,83 +6,123 @@ const dispyoyaku = require('../model/dispyoyaku');
 router.get('/', function (req, res) {
 
   const time_cur = new Date().getHours();
-  dispyoyaku.findByTime(time_cur,(err, retObj) => {
+  dispyoyaku.findByTime(time_cur, (err, retObj) => {
 
     let floor = initfloorinfo();
     const yoyakus = retObj[0];
 
     if (yoyakus.length !== 0) {
-  
+
       yoyakus.forEach((yoyaku) => {
         if (yoyaku.no_room === 401) {
-          floor.room401.time = yoyaku.nm_disp;
-          floor.room401.nm_user = yoyaku.time_riyou;
+          if (floor.room401.time === '　') {
+            floor.room401.time = yoyaku.time_riyou;
+            floor.room401.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 402) {
-          floor.room402.time = yoyaku.nm_disp;
-          floor.room402.nm_user = yoyaku.time_riyou;
+          if (floor.room402.time === '　') {
+            floor.room402.time = yoyaku.time_riyou;
+            floor.room402.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 500) {
-          floor.room500.time = yoyaku.nm_disp;
-          floor.room500.nm_user = yoyaku.time_riyou;
+          if (floor.room500.time === '　') {
+            floor.room500.time = yoyaku.time_riyou;
+            floor.room500.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 501) {
-          floor.room501.time = yoyaku.nm_disp;
-          floor.room501.nm_user = yoyaku.time_riyou;
+          if (floor.room501.time === '　') {
+            floor.room501.time = yoyaku.time_riyou;
+            floor.room501.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 502) {
-          floor.room502.time = yoyaku.nm_disp;
-          floor.room502.nm_user = yoyaku.time_riyou;
+          if (floor.room502.time === '　') {
+            floor.room502.time = yoyaku.time_riyou;
+            floor.room502.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 503) {
-          floor.room503.time = yoyaku.nm_disp;
-          floor.room503.nm_user = yoyaku.time_riyou;
+          if (floor.room503.time === '　') {
+            floor.room503.time = yoyaku.time_riyou;
+            floor.room503.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 504) {
-          floor.room504.time = yoyaku.nm_disp;
-          floor.room504.nm_user = yoyaku.time_riyou;
+          if (floor.room504.time === '　') {
+            floor.room504.time = yoyaku.time_riyou;
+            floor.room504.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 505) {
-          floor.room505.time = yoyaku.nm_disp;
-          floor.room505.nm_user = yoyaku.time_riyou;
+          if (floor.room505.time === '　') {
+            floor.room505.time = yoyaku.time_riyou;
+            floor.room505.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 506) {
-          floor.room506.time = yoyaku.nm_disp;
-          floor.room506.nm_user = yoyaku.time_riyou;
+          if (floor.room506.time === '　') {
+            floor.room506.time = yoyaku.time_riyou;
+            floor.room506.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 1) {
-          floor.room001.time = yoyaku.nm_disp;
-          floor.room001.nm_user = yoyaku.time_riyou;
+          if (floor.room001.time === '　') {
+            floor.room001.time = yoyaku.time_riyou;
+            floor.room001.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 2) {
-          floor.room002.time = yoyaku.nm_disp;
-          floor.room002.nm_user = yoyaku.time_riyou;
+          if (floor.room002.time === '　') {
+            floor.room002.time = yoyaku.time_riyou;
+            floor.room002.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 3) {
-          floor.room003.time = yoyaku.nm_disp;
-          floor.room003.nm_user = yoyaku.time_riyou;
+          if (floor.room003.time === '　') {
+            floor.room003.time = yoyaku.time_riyou;
+            floor.room003.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 4) {
-          floor.room004.time = yoyaku.nm_disp;
-          floor.room004.nm_user = yoyaku.time_riyou;
+          if (floor.room004.time === '　') {
+            floor.room004.time = yoyaku.time_riyou;
+            floor.room004.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 5) {
-          floor.room005.time = yoyaku.nm_disp;
-          floor.room005.nm_user = yoyaku.time_riyou;
+          if (floor.room005.time === '　') {
+            floor.room005.time = yoyaku.time_riyou;
+            floor.room005.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 10) {
-          floor.roomprezen.time = yoyaku.nm_disp;
-          floor.roomprezen.nm_user = yoyaku.time_riyou;
+          if (floor.room006.time === '　') {
+            floor.roomprezen.time = yoyaku.time_riyou;
+            floor.roomprezen.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 11) {
-          floor.room011.time = yoyaku.nm_disp;
-          floor.room011.nm_user = yoyaku.time_riyou;
+          if (floor.room011.time === '　') {
+            floor.room011.time = yoyaku.time_riyou;
+            floor.room011.nm_user = yoyaku.nm_disp.slice(0,16);
+          }
         } else if (yoyaku.no_room === 12) {
-          floor.room012.time = yoyaku.nm_disp;
-          floor.room012.nm_user = yoyaku.time_riyou;
+          if (floor.room012.time === '　') {
+            floor.room012.time = yoyaku.time_riyou;
+            floor.room012.nm_user = yoyaku.nm_disp.slice(0,16);
+          }
         } else if (yoyaku.no_room === 13) {
-          floor.room013.time = yoyaku.nm_disp;
-          floor.room013.nm_user = yoyaku.time_riyou;
+          if (floor.room013.time === '　') {
+            floor.room013.time = yoyaku.time_riyou;
+            floor.room013.nm_user = yoyaku.nm_disp.slice(0,16);
+          }
         } else if (yoyaku.no_room === 14) {
-          floor.room014.time = yoyaku.nm_disp;
-          floor.room014.nm_user = yoyaku.time_riyou;
+          if (floor.room014.time === '　') {
+            floor.room014.time = yoyaku.time_riyou;
+            floor.room014.nm_user = yoyaku.nm_disp.slice(0,16);
+          }
         } else if (yoyaku.no_room === 15) {
-          floor.room015.time = yoyaku.nm_disp;
-          floor.room015.nm_user = yoyaku.time_riyou;
+          if (floor.room015.time === '　') {
+            floor.room015.time = yoyaku.time_riyou;
+            floor.room015.nm_user = yoyaku.nm_disp.slice(0,16);
+          }
         }
       })
     }
 
-    const page = Math.ceil(yoyakus.length/14);
+    const page = Math.ceil(yoyakus.length / 14);
     const yoyakurowcount = yoyakus.length;
     const rowcount = page * 14;
-    for (let i=0; i<rowcount; i++) {
-      if ((yoyakurowcount -1) < i) {
+    for (let i = 0; i < rowcount; i++) {
+      if ((yoyakurowcount - 1) < i) {
         yoyakus[i] = {
           name_disp: '　',
           time_riyou: '　',
@@ -90,9 +130,9 @@ router.get('/', function (req, res) {
         }
       }
     }
-  
+
     res.render('top', {
-      page:page,
+      page: page,
       yoyakus: yoyakus,
       floor: floor,
     });
