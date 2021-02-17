@@ -24,8 +24,7 @@
                   <span class="title_2">Meeting Room Information</span>
                 </td>
                 <td class="day_waku">
-                  <span id="clock"></span>
-                  2021/02/11 13:51
+                  <span class="clock"></span>
                 </td>
               </tr>
             </table>
@@ -78,8 +77,7 @@
                     <span class="title_2">Floor Information（4F/5F)</span>
                   </td>
                   <td class="day_waku">
-                    <span id="clock_a"></span>
-                    2021/02/11 11:57
+                    <span class="clock"></span>
                   </td>
                 </tr>
               </table>
@@ -247,8 +245,7 @@
                     <span class="title_2">Floor Information（B1F)</span>
                   </td>
                   <td class="day_waku">
-                    <span id="clock"></span>
-                    2021/02/11 17:52
+                    <span class="clock"></span>
                   </td>
                 </tr>
               </table>
@@ -489,6 +486,19 @@
               }
             }
             initSwiper();
+
+            function setTime() {
+              const clocks = document.getElementsByClassName('clock');
+              const date = new Date();
+              const yyyymmddhhmm = date.getFullYear() + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + ("0" + date.getDate()).slice(-2) + " " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+              for (let i = 0; i< clocks.length; i++) {
+                clocks[i].innerHTML = yyyymmddhhmm;
+              }
+            }
+            setTime();
+            setInterval(() => {
+              setTime();
+            }, 15000);
             // window.addEventListener("resize", initSwiper);
             // let dispgrouNo = 0;
       // const initrows = document.getElementsByTagName("tr");
