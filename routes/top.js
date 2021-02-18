@@ -7,6 +7,9 @@ router.get('/', function (req, res) {
 
   const time_cur = new Date().getHours();
   dispyoyaku.findByTime(time_cur, (err, retObj) => {
+    if (err) {
+      throw err;
+    }
 
     let floor = initfloorinfo();
     const yoyakus = retObj[0];
@@ -85,7 +88,7 @@ router.get('/', function (req, res) {
             floor.room005.nm_user = yoyaku.nm_disp.slice(0,20);
           }
         } else if (yoyaku.no_room === 10) {
-          if (floor.room006.time === '　') {
+          if (floor.roomprezen.time === '　') {
             floor.roomprezen.time = yoyaku.time_riyou;
             floor.roomprezen.nm_user = yoyaku.nm_disp.slice(0,20);
           }
