@@ -19,7 +19,8 @@ const findAll = (callback) => {
 
 const findByTime= ( time_cur, callback) => {
     (async () => {
-        const query = 'SELECT ymd_riyou, nm_room, no_room, left(nm_disp,20) AS nm_disp, time_riyou, time_start, time_end, nm_riyousha FROM dispyoyakus where (time_start >= ' + Number(time_cur) + ') OR (time_end > ' + Number(time_cur) + ') ORDER BY time_start, no_room, time_end';
+        const query = 'SELECT ymd_riyou, nm_room, no_room, left(nm_disp,20) AS nm_disp, time_riyou, time_start, time_end, nm_riyousha FROM dispyoyakus where (time_start >= ' + Number(time_cur) + ') OR (time_end > ' + Number(time_cur) + ') ORDER BY time_start, time_end, no_room';
+        await logger.info('[' + time_cur + ']' + query);
         await client.raw(query)
             .then((retObj) => {
                 callback(null, retObj);
