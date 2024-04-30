@@ -8,7 +8,7 @@ const fs = require("fs");
 const dispyoyaku = require("../model/dispyoyaku");
 
 const url_yoyaku = 'https://www.yamori-yoyaku.jp/studio/OfficeLogin.htm';
-const dlpath = 'C:\\download';
+const dlpath = 'C:\\download\\dispyoyaku';
 const login_id = '';
 const login_passwd = '';
 
