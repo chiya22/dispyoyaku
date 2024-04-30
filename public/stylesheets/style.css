@@ -153,7 +153,7 @@ body {
 	text-align: left;
 }
 
-.item_4 { /*４Ｆ、５Ｆ左上表示枠 */
+.item_4 { /*４Ｆ左上表示枠 */
 	text-align: center;
 	padding: 3px;
 	height: 27px;
@@ -162,6 +162,23 @@ body {
 	margin-right: 0px;
 	margin-bottom: 15px;
 	margin-left: 10px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	background-color: #183021;
+	font-size: 22px;
+	font-family: "Century Gothic";
+	color: #F8F8F8;
+}
+
+.item_4_5 { /*５Ｆ左上表示枠 */
+	text-align: center;
+	padding: 3px;
+	height: 27px;
+	width: 60px;
+	margin-top: -20px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+	margin-left: 250px;
 	border: 2px solid #CCC;
 	border-radius: 10px;
 	background-color: #183021;
@@ -186,6 +203,23 @@ body {
 	color: #F8F8F8;
 }
 
+.item_5_1 { /*地下左上表示枠 */
+	text-align: center;
+	padding: 3px;
+	height: 27px;
+	width: 60px;
+	margin-top: -20px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	border: 2px solid #CCC;
+	border-radius: 10px;
+	background-color: #183021;
+	font-size: 22px;
+	font-family: "Century Gothic";
+	color: #F8F8F8;
+}
+
 .room_no {
 	font-size: 18px;
 	font-family: "Century Gothic";
@@ -200,7 +234,7 @@ body {
 .reserve_time {
 	text-align: center;
 	color: #000;
-	font-size: 16px;
+	font-size: 15px;
 	font-family: "Century Gothic";
 	background-color: #5e6660;
 	margin: 0px;
@@ -210,19 +244,19 @@ body {
 }
 
 .reserve_user {
-	font-size: 16px;
+	font-size: 15px;
 	color: #000;
 	background-color: #adabad;
 	text-align: left;
 	margin: 0px;
 	padding: 3px;
-	height: 30px;
+	height: 40px;
 	width: 170px;
-	line-height: 16px;
+	line-height: 15px;
 }
 
 .room_no_prj {
-	font-size: 16px;
+	font-size: 15px;
 	font-family: "Century Gothic";
 	background-color: #183021;
 	text-align: center;
@@ -263,7 +297,7 @@ body {
 }
 
 .waku_4 {
-	float: left;
+	/* float: left; */
 	height: 195px;
 	width: 200px;
 	border: 2px solid #CCC;
@@ -272,28 +306,34 @@ body {
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
-	padding-left: 15px;
-	margin-top: 20px;
+	padding-left: 20px;
+	margin-top: 0px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
+	z-index: 99;
+	float: none;
+	position: absolute;
 }
 
 .waku_5 {
-	float: left;
+	position: relative;
+	/* float: left; */
 	height: 374px;
-	width: 400px;
+	width: 640px;
 	border: 2px solid #CCC;
 	margin-top: 20px;
 	margin-right: 0px;
 	margin-bottom: 0px;
-	margin-left: 9px;
+	margin-left: 0px;
 	text-align: center;
 	border-radius: 10px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
-	padding-left: 5px;
+	padding-left: 0px;
+	z-index: 0;
+	float: none;
 }
 
 .waku_6 {
