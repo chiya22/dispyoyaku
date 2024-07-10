@@ -1,13 +1,16 @@
 const Knex = require("knex");
 
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+  }
+
 const connect = () => {
     const config = {
-        host: '',
-        user: '',
-        password: '',
-        database: '',
-        // database: 'pfs',
-        // port: 58020,
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+        port: process.env.PORT,
     };
 
     const knex = Knex({

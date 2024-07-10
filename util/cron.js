@@ -7,29 +7,38 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const dispyoyaku = require("../model/dispyoyaku");
 
-const url_yoyaku = 'https://www.yamori-yoyaku.jp/studio/OfficeLogin.htm';
 const dlpath = 'C:\\download\\dispyoyaku';
-const login_id = '';
-const login_passwd = '';
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // cron設定
 const startcron = () => {
 
     // 会議室　予約情報ダウンロード
-    cron.schedule('57 * * * *', () => {
+    cron.schedule('*/2 * * * *', () => {
 
         (async () => {
 
-            const browser = await puppeteer.launch({ headless: false });
+            const browser = await puppeteer.launch({ headless: true,args: [
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-setuid-sandbox',
+                '--no-first-run',
+                '--no-sandbox',
+                '--no-zygote',
+                '--single-process'
+              ]});
 
             let page = await browser.newPage();
 
-            const URL = url_yoyaku;
+            const URL = process.env.YOYAKU_URL;
             await page.goto(URL, { waitUntil: "domcontentloaded" });
 
             // ログイン
-            await page.type('input[name="in_office"]', login_id);
-            await page.type('input[name="in_opassword"]', login_passwd);
+            await page.type('input[name="in_office"]', process.env.YOYAKU_LOGIN_ID);
+            await page.type('input[name="in_opassword"]', process.env.YOYAKU_LOGIN_PASSWORD);
             await page.click(
                 "body > table > tbody > tr > td > table > tbody > tr:nth-child(1) > td > form > table:nth-child(2) > tbody > tr > td:nth-child(2) > input"
             );
@@ -49,7 +58,7 @@ const startcron = () => {
             let newPage = await getNewPage(page);
 
             // パスワードの設定
-            await newPage.type('input[name="in_managerpassword"]', login_passwd);
+            await newPage.type('input[name="in_managerpassword"]', process.env.YOYAKU_LOGIN_PASSWORD);
             const inputElement = await newPage.$("input[type=submit]");
             await inputElement.click();
 
@@ -143,7 +152,7 @@ const startcron = () => {
     })
 
     // 会議室　利用者情報取込
-    cron.schedule('59 * * * *', () => {
+    cron.schedule('* */1 * * *', () => {
 
         // ダウンロードディレクトリにあるcsvファイルを取得する
         let targetfilename = "";
@@ -209,6 +218,8 @@ const startcron = () => {
                                     no_room = 505;
                                 } else if (linecontents[4] === '会議室506') {
                                     no_room = 506;
+                                } else if (linecontents[4] === '会議室507') {
+                                    no_room = 507;
                                 } else if (linecontents[4] === 'ミーティングR001') {
                                     no_room = 1;
                                 } else if (linecontents[4] === 'ミーティングR002') {
@@ -240,10 +251,12 @@ const startcron = () => {
                                 inObj.nm_riyousha = linecontents[7];
 
                                 // ファイル出力 利用日／名称／予約時間／開始時間／終了時間
-                                dispyoyaku.insert(inObj, (err, retObj) => {
-                                    if (err) { throw err };
-                                    logger.info(`登録予約情報：${inObj.ymd_riyou},${inObj.nm_room},${inObj.time_riyou}`);
-                                });
+                                if (inObj.no_room !== '会議室401') {
+                                    dispyoyaku.insert(inObj, (err, retObj) => {
+                                        if (err) { throw err };
+                                        logger.info(`登録予約情報：${inObj.ymd_riyou},${inObj.nm_room},${inObj.time_riyou}`);
+                                    });
+                                }
                             }
                         });
                     });
