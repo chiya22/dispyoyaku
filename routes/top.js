@@ -62,6 +62,11 @@ router.get('/', function (req, res) {
             floor.room506.time = yoyaku.time_riyou;
             floor.room506.nm_user = yoyaku.nm_disp.slice(0,20);
           }
+        } else if (yoyaku.no_room === 507) {
+          if (floor.room507.time === '　') {
+            floor.room507.time = yoyaku.time_riyou;
+            floor.room507.nm_user = yoyaku.nm_disp.slice(0,20);
+          }
         } else if (yoyaku.no_room === 1) {
           if (floor.room001.time === '　') {
             floor.room001.time = yoyaku.time_riyou;
@@ -180,6 +185,10 @@ const initfloorinfo = () => {
       nm_user: '　',
     },
     room506: {
+      time: '　',
+      nm_user: '　',
+    },
+    room507: {
       time: '　',
       nm_user: '　',
     },
