@@ -6,7 +6,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
-const topRouter = require('./routes/top')
+const topRouter = require('./routes/top');
+const dlriyoustatusRouter = require('./routes/dlriyoustatus');
 
 let app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 app.use('/top', topRouter);
+app.use('/dlriyoustatus', dlriyoustatusRouter);
 
 const cron = require('./util/cron')
 cron.startcron();
