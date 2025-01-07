@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 const startcron = () => {
 
     // 会議室　予約情報ダウンロード
-    cron.schedule('*/2 * * * *', () => {
+    cron.schedule(process.env.CRON_YOYAKUDL, () => {
 
         (async () => {
 
@@ -152,7 +152,7 @@ const startcron = () => {
     })
 
     // 会議室　利用者情報取込
-    cron.schedule('* */1 * * *', () => {
+    cron.schedule(process.env.CRON_TORIKOMI, () => {
 
         // ダウンロードディレクトリにあるcsvファイルを取得する
         let targetfilename = "";
