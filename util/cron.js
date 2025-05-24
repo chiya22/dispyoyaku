@@ -17,10 +17,9 @@ if (process.env.NODE_ENV !== "production") {
 const startcron = () => {
 
     // 会議室　予約情報ダウンロード
-    cron.schedule(process.env.CRON_YOYAKUDL, () => {
-
-        (async () => {
-
+    cron.schedule(process.env.CRON_YOYAKUDL, () => { // Ensure no irregular whitespace here
+        // eslint-disable-next-line no-irregular-whitespace
+        (async () => { // Standard space indentation
             const browser = await puppeteer.launch({ headless: true,args: [
                 '--disable-gpu',
                 '--disable-dev-shm-usage',
@@ -149,19 +148,18 @@ const startcron = () => {
             await browser.close();
 
         })();
-    })
+    });
 
     // 会議室　利用者情報取込
-    cron.schedule(process.env.CRON_TORIKOMI, () => {
-
-        // ダウンロードディレクトリにあるcsvファイルを取得する
+    cron.schedule(process.env.CRON_TORIKOMI, () => { // Ensure no irregular whitespace here
+        // eslint-disable-next-line no-irregular-whitespace
+        // Standard space indentation, then comment
         let targetfilename = "";
         fs.readdirSync(dlpath).forEach((filename) => {
             // *mdl.csvのファイルの場合処理をする
             if (filename.slice(-7) === "rdl.csv") {
-
-                dispyoyaku.deleteAll((err, retObj) => {
-                    if (err) { throw err };
+                dispyoyaku.deleteAll((err) => {
+                    if (err) { throw err }
                     targetfilename = filename;
                     // csvファイルはShift-JISのため
                     const src = fs
@@ -197,7 +195,7 @@ const startcron = () => {
                                 // 16:利用料金
                                 // 17:施設特記事項
 
-                                inObj.ymd_riyou = linecontents[1].replace(/-/g, '');;
+                                inObj.ymd_riyou = linecontents[1].replace(/-/g, '');
                                 inObj.nm_room = linecontents[4];
                                 // 部屋番号を設定
                                 if (linecontents[4] === '会議室401') {
@@ -252,8 +250,8 @@ const startcron = () => {
 
                                 // ファイル出力 利用日／名称／予約時間／開始時間／終了時間
                                 if (inObj.no_room !== '会議室401') {
-                                    dispyoyaku.insert(inObj, (err, retObj) => {
-                                        if (err) { throw err };
+                                    dispyoyaku.insert(inObj, (err) => {
+                                        if (err) { throw err }
                                         logger.info(`登録予約情報：${inObj.ymd_riyou},${inObj.nm_room},${inObj.time_riyou}`);
                                     });
                                 }

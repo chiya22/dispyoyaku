@@ -138,7 +138,7 @@ router.post('/', (req, res) => {
 
     const a_tag = await newPageResult.$('a');
     const hrefs = await newPageResult.$$eval('a', anchors => anchors.map(anchor => anchor.href));
-    dlFilename = hrefs[0].split("/").slice(-1);
+    let dlFilename = hrefs[0].split("/").slice(-1);
     if (a_tag) {
         await logger.info(`予約情報をダウンロードしました：${new Date()}`);
 
@@ -322,7 +322,7 @@ router.post('/', (req, res) => {
       let endCell_head = ""
   
       // 1行の処理
-      startCol = 3
+      let startCol = 3;
   
       // 9:00（3列目）から22:00（16列目）までのループ
       for (let col = 3; 16 >= col; col++) {

@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 /*
 日付をもとに、日付＋曜日の文字列を返却する
 yyyy年mm月dd日(曜日)
@@ -23,7 +21,7 @@ const getYoubi = (date) => {
 /**
  * 日付をもとにDate型
  */
-createDate = (year, month, day) => {
+const createDate = (year, month, day) => {
     // JavaScriptのDateオブジェクトは月が0から始まるため、月から1を引く
     return new Date(year, month - 1, day);
   }
@@ -31,4 +29,5 @@ createDate = (year, month, day) => {
 module.exports = {
     getYmdyoubi,
     getYoubi,
+    createDate,
 };

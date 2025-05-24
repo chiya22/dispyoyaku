@@ -150,7 +150,7 @@ router.get('/', function (req, res) {
 });
 
 const initfloorinfo = () => {
-  return floor =
+  const floorInfo =
   {
     room401: {
       time: '　',
@@ -236,7 +236,8 @@ const initfloorinfo = () => {
       time: '　',
       nm_user: '　',
     },
-  }
+  };
+  return floorInfo;
 }
 
 module.exports = router;
