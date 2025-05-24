@@ -2,241 +2,57 @@ const express = require('express');
 const router = express.Router();
 
 const dispyoyaku = require('../model/dispyoyaku');
+const floorDisplayService = require('../services/floorDisplayService'); // Import the new service
 
 router.get('/', function (req, res) {
 
   const time_cur = new Date().getHours();
   dispyoyaku.findByTime(time_cur, (err, retObj) => {
     if (err) {
-      throw err;
+      // It's generally better to pass the error to an error handler
+      // or at least log it and send a user-friendly error page.
+      console.error("Error fetching yoyaku data:", err);
+      return res.status(500).send("Error fetching data."); // Or render an error page
     }
 
-    let floor = initfloorinfo();
-    const yoyakus = retObj[0];
+    // Ensure retObj and retObj[0] are valid before trying to access yoyakus
+    const yoyakus = (retObj && retObj[0]) ? retObj[0] : [];
 
+    // Initialize floor data using the service
+    let floor = floorDisplayService.initializeFloorData();
+
+    // Format floor data using the service
     if (yoyakus.length !== 0) {
-
-      yoyakus.forEach((yoyaku) => {
-        if (yoyaku.no_room === 401) {
-          if (floor.room401.time === '　') {
-            floor.room401.time = yoyaku.time_riyou;
-            floor.room401.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 402) {
-          if (floor.room402.time === '　') {
-            floor.room402.time = yoyaku.time_riyou;
-            floor.room402.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 500) {
-          if (floor.room500.time === '　') {
-            floor.room500.time = yoyaku.time_riyou;
-            floor.room500.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 501) {
-          if (floor.room501.time === '　') {
-            floor.room501.time = yoyaku.time_riyou;
-            floor.room501.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 502) {
-          if (floor.room502.time === '　') {
-            floor.room502.time = yoyaku.time_riyou;
-            floor.room502.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 503) {
-          if (floor.room503.time === '　') {
-            floor.room503.time = yoyaku.time_riyou;
-            floor.room503.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 504) {
-          if (floor.room504.time === '　') {
-            floor.room504.time = yoyaku.time_riyou;
-            floor.room504.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 505) {
-          if (floor.room505.time === '　') {
-            floor.room505.time = yoyaku.time_riyou;
-            floor.room505.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 506) {
-          if (floor.room506.time === '　') {
-            floor.room506.time = yoyaku.time_riyou;
-            floor.room506.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 507) {
-          if (floor.room507.time === '　') {
-            floor.room507.time = yoyaku.time_riyou;
-            floor.room507.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 1) {
-          if (floor.room001.time === '　') {
-            floor.room001.time = yoyaku.time_riyou;
-            floor.room001.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 2) {
-          if (floor.room002.time === '　') {
-            floor.room002.time = yoyaku.time_riyou;
-            floor.room002.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 3) {
-          if (floor.room003.time === '　') {
-            floor.room003.time = yoyaku.time_riyou;
-            floor.room003.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 4) {
-          if (floor.room004.time === '　') {
-            floor.room004.time = yoyaku.time_riyou;
-            floor.room004.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 5) {
-          if (floor.room005.time === '　') {
-            floor.room005.time = yoyaku.time_riyou;
-            floor.room005.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 10) {
-          if (floor.roomprezen.time === '　') {
-            floor.roomprezen.time = yoyaku.time_riyou;
-            floor.roomprezen.nm_user = yoyaku.nm_disp.slice(0,20);
-          }
-        } else if (yoyaku.no_room === 11) {
-          if (floor.room011.time === '　') {
-            floor.room011.time = yoyaku.time_riyou;
-            floor.room011.nm_user = yoyaku.nm_disp.slice(0,16);
-          }
-        } else if (yoyaku.no_room === 12) {
-          if (floor.room012.time === '　') {
-            floor.room012.time = yoyaku.time_riyou;
-            floor.room012.nm_user = yoyaku.nm_disp.slice(0,16);
-          }
-        } else if (yoyaku.no_room === 13) {
-          if (floor.room013.time === '　') {
-            floor.room013.time = yoyaku.time_riyou;
-            floor.room013.nm_user = yoyaku.nm_disp.slice(0,16);
-          }
-        } else if (yoyaku.no_room === 14) {
-          if (floor.room014.time === '　') {
-            floor.room014.time = yoyaku.time_riyou;
-            floor.room014.nm_user = yoyaku.nm_disp.slice(0,16);
-          }
-        } else if (yoyaku.no_room === 15) {
-          if (floor.room015.time === '　') {
-            floor.room015.time = yoyaku.time_riyou;
-            floor.room015.nm_user = yoyaku.nm_disp.slice(0,16);
-          }
-        }
-      })
+      floor = floorDisplayService.formatFloorData(yoyakus, floor);
     }
 
-    const page = Math.ceil(yoyakus.length / 14);
-    const yoyakurowcount = yoyakus.length;
+    // The logic for padding yoyakus for display remains, as it's view-specific.
+    // Ensure yoyakus is an array before calculating page size.
+    const page = Array.isArray(yoyakus) ? Math.ceil(yoyakus.length / 14) : 0;
+    const yoyakurowcount = Array.isArray(yoyakus) ? yoyakus.length : 0;
     const rowcount = page * 14;
+
+    // It's safer to create a new array for paddedYoyakus if yoyakus needs to be modified for display
+    let paddedYoyakus = [...yoyakus]; // Create a shallow copy
+
     for (let i = 0; i < rowcount; i++) {
-      if ((yoyakurowcount - 1) < i) {
-        yoyakus[i] = {
-          name_disp: '　',
+      if (yoyakurowcount <= i) { // Corrected condition: if current index is beyond actual data
+        paddedYoyakus[i] = { // Use paddedYoyakus here
+          name_disp: '　', // Assuming this is an empty/placeholder character
           time_riyou: '　',
           nm_room: '　'
-        }
+        };
       }
     }
 
     res.render('top', {
       page: page,
-      yoyakus: yoyakus,
+      yoyakus: paddedYoyakus, // Send the padded array to the view
       floor: floor,
     });
-
   });
-
 });
 
-const initfloorinfo = () => {
-  return floor =
-  {
-    room401: {
-      time: '　',
-      nm_user: '　',
-    },
-    room402: {
-      time: '　',
-      nm_user: '　',
-    },
-    room500: {
-      time: '　',
-      nm_user: '　',
-    },
-    room501: {
-      time: '　',
-      nm_user: '　',
-    },
-    room502: {
-      time: '　',
-      nm_user: '　',
-    },
-    room503: {
-      time: '　',
-      nm_user: '　',
-    },
-    room504: {
-      time: '　',
-      nm_user: '　',
-    },
-    room505: {
-      time: '　',
-      nm_user: '　',
-    },
-    room506: {
-      time: '　',
-      nm_user: '　',
-    },
-    room507: {
-      time: '　',
-      nm_user: '　',
-    },
-    room001: {
-      time: '　',
-      nm_user: '　',
-    },
-    room002: {
-      time: '　',
-      nm_user: '　',
-    },
-    room003: {
-      time: '　',
-      nm_user: '　',
-    },
-    room004: {
-      time: '　',
-      nm_user: '　',
-    },
-    room005: {
-      time: '　',
-      nm_user: '　',
-    },
-    room011: {
-      time: '　',
-      nm_user: '　',
-    },
-    room012: {
-      time: '　',
-      nm_user: '　',
-    },
-    room013: {
-      time: '　',
-      nm_user: '　',
-    },
-    room014: {
-      time: '　',
-      nm_user: '　',
-    },
-    room015: {
-      time: '　',
-      nm_user: '　',
-    },
-    roomprezen: {
-      time: '　',
-      nm_user: '　',
-    },
-  }
-}
+// initfloorinfo function has been moved to floorDisplayService.js
 
 module.exports = router;

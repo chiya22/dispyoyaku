@@ -20,13 +20,7 @@ const getYoubi = (date) => {
 
 };
 
-/**
- * 日付をもとにDate型
- */
-createDate = (year, month, day) => {
-    // JavaScriptのDateオブジェクトは月が0から始まるため、月から1を引く
-    return new Date(year, month - 1, day);
-  }
+// createDate function has been removed.
 
 module.exports = {
     getYmdyoubi,
