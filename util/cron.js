@@ -4,8 +4,10 @@ const logger = log4js.configure('./config/log4js-config.json').getLogger();
 const cron = require('node-cron');
 const iconv = require("iconv-lite");
 const puppeteer = require("puppeteer");
-const fs = require("fs");
-const dispyoyaku = require("../model/dispyoyaku");
+const fs = require("node:fs");
+const dispyoyaku = require("../model/dispyoyaku.js");
+const mailzumi = require("../model/mailzumi.js");
+const mailsend = require("./mailsend.js");
 
 const dlpath = 'C:\\download\\dispyoyaku';
 
@@ -29,12 +31,13 @@ const startcron = () => {
                 '--no-sandbox',
                 '--no-zygote',
                 '--single-process'
-              ]});
+              ]
+            });
 
-            let page = await browser.newPage();
+            const page = await browser.newPage();
 
-            const URL = process.env.YOYAKU_URL;
-            await page.goto(URL, { waitUntil: "domcontentloaded" });
+            const url = process.env.YOYAKU_URL;
+            await page.goto(url, { waitUntil: "domcontentloaded" });
 
             // ログイン
             await page.type('input[name="in_office"]', process.env.YOYAKU_LOGIN_ID);
@@ -55,7 +58,7 @@ const startcron = () => {
             await page.waitForTimeout(2000);
 
             // 新しく開いたページを取得
-            let newPage = await getNewPage(page);
+            const newPage = await getNewPage(page);
 
             // パスワードの設定
             await newPage.type('input[name="in_managerpassword"]', process.env.YOYAKU_LOGIN_PASSWORD);
@@ -79,21 +82,21 @@ const startcron = () => {
             await newPage.waitForTimeout(2000);
 
             // 新しく開いたページを取得
-            let newPageTouroku = await getNewPage(newPage);
+            const newPageTouroku = await getNewPage(newPage);
 
             // Promptが出たら必ずOKとする
             newPageTouroku.on('dialog', async dialog => {
                 await dialog.accept();
             });
 
-            const currentYYYYMMDD = getCurrentYYYYMMDD();
-            const inYYYYMM = currentYYYYMMDD.slice(0, 4) + '-' + currentYYYYMMDD.slice(4, 6)
-            const in_DD = currentYYYYMMDD.slice(-2);
+            const currentYyyymmdd = getCurrentYyyymmdd();
+            const inYyyymm = `${currentYyyymmdd.slice(0, 4)}-${currentYyyymmdd.slice(4, 6)}`
+            const inDd = currentYyyymmdd.slice(-2);
 
             // 開始へ設定する年月
-            await newPageTouroku.select('select[name="in_month"]', inYYYYMM);
-            await newPageTouroku.select('select[name="in_sday"]', "" + Number(in_DD));
-            await newPageTouroku.select('select[name="in_eday"]', "" + Number(in_DD));
+            await newPageTouroku.select('select[name="in_month"]', inYyyymm);
+            await newPageTouroku.select('select[name="in_sday"]', `${Number(inDd)}`);
+            await newPageTouroku.select('select[name="in_eday"]', `${Number(inDd)}`);
             // await newPageTouroku.select('select[name="end_y"]', '2020');
             // await newPageTouroku.select('select[name="end_m"]', '12');
 
@@ -113,10 +116,10 @@ const startcron = () => {
             await newPage.waitForTimeout(2000);
 
             // 新しく開いたページを取得
-            let newPageResult = await getNewPage(newPageTouroku);
+            const newPageResult = await getNewPage(newPageTouroku);
 
-            const a_tag = await newPageResult.$('a');
-            if (a_tag) {
+            const aTag = await newPageResult.$('a');
+            if (aTag) {
                 await logger.info(`予約情報をダウンロードしました：${new Date()}`);
 
                 // ダウンロード先の設定
@@ -124,7 +127,7 @@ const startcron = () => {
                     'Page.setDownloadBehavior',
                     { behavior: 'allow', downloadPath: dlpath }
                 );
-                await a_tag.click();
+                await aTag.click();
                 await page.waitForTimeout(10000);
 
             } else {
@@ -151,31 +154,33 @@ const startcron = () => {
         })();
     })
 
-    // 会議室　利用者情報取込
+    // 会議室　予約情報取込
     cron.schedule(process.env.CRON_TORIKOMI, () => {
 
         // ダウンロードディレクトリにあるcsvファイルを取得する
         let targetfilename = "";
+        // biome-ignore lint/complexity/noForEach: <explanation>
         fs.readdirSync(dlpath).forEach((filename) => {
             // *mdl.csvのファイルの場合処理をする
             if (filename.slice(-7) === "rdl.csv") {
 
-                dispyoyaku.deleteAll((err, retObj) => {
+                dispyoyaku.deleteAll((err) => {
                     if (err) { throw err };
                     targetfilename = filename;
                     // csvファイルはShift-JISのため
                     const src = fs
-                        .createReadStream(dlpath + "\\" + filename)
+                        .createReadStream(`${dlpath}\\${filename}`)
                         .pipe(iconv.decodeStream("Shift_JIS"));
 
                     src.on("data", (chunk) => {
                         const lines = chunk.split("\n");
+                        // biome-ignore lint/complexity/noForEach: <explanation>
                         lines.forEach((line) => {
-                            let linecontents = line.split(",");
+                            const linecontents = line.split(",");
                             if ((linecontents[0] !== '登録日') && (linecontents[0] !== '')) {
 
-                                let inObj = {};
-                                let no_room = 0;
+                                const inObj = {};
+                                let noRoom = 0;
 
                                 // linecontentsの項目
                                 // 00:登録日
@@ -201,49 +206,69 @@ const startcron = () => {
                                 inObj.nm_room = linecontents[4];
                                 // 部屋番号を設定
                                 if (linecontents[4] === '会議室401') {
-                                    no_room = 401;
-                                } else if (linecontents[4] === '会議室402') {
-                                    no_room = 402;
-                                } else if (linecontents[4] === '会議室500') {
-                                    no_room = 500;
-                                } else if (linecontents[4] === '会議室501') {
-                                    no_room = 501;
-                                } else if (linecontents[4] === '会議室502') {
-                                    no_room = 502;
-                                } else if (linecontents[4] === '会議室503') {
-                                    no_room = 503;
-                                } else if (linecontents[4] === '会議室504') {
-                                    no_room = 504;
-                                } else if (linecontents[4] === '会議室505') {
-                                    no_room = 505;
-                                } else if (linecontents[4] === '会議室506') {
-                                    no_room = 506;
-                                } else if (linecontents[4] === '会議室507') {
-                                    no_room = 507;
-                                } else if (linecontents[4] === 'ミーティングR001') {
-                                    no_room = 1;
-                                } else if (linecontents[4] === 'ミーティングR002') {
-                                    no_room = 2;
-                                } else if (linecontents[4] === 'ミーティングR003') {
-                                    no_room = 3;
-                                } else if (linecontents[4] === 'ミーティングR004') {
-                                    no_room = 4;
-                                } else if (linecontents[4] === 'ミーティングR005') {
-                                    no_room = 5;
-                                } else if (linecontents[4] === 'プレゼンＲ') {
-                                    no_room = 10;
-                                } else if (linecontents[4] === 'プロジェクトR011') {
-                                    no_room = 11;
-                                } else if (linecontents[4] === 'プロジェクトR012') {
-                                    no_room = 12;
-                                } else if (linecontents[4] === 'プロジェクトR013') {
-                                    no_room = 13;
-                                } else if (linecontents[4] === 'プロジェクトR014') {
-                                    no_room = 14;
-                                } else if (linecontents[4] === 'プロジェクトR015') {
-                                    no_room = 15;
+                                    noRoom = 401;
                                 }
-                                inObj.no_room = no_room;
+                                if (linecontents[4] === '会議室402') {
+                                    noRoom = 402;
+                                }
+                                if (linecontents[4] === '会議室500') {
+                                    noRoom = 500;
+                                }
+                                if (linecontents[4] === '会議室501') {
+                                    noRoom = 501;
+                                }
+                                if (linecontents[4] === '会議室502') {
+                                    noRoom = 502;
+                                }
+                                if (linecontents[4] === '会議室503') {
+                                    noRoom = 503;
+                                }
+                                if (linecontents[4] === '会議室504') {
+                                    noRoom = 504;
+                                }
+                                if (linecontents[4] === '会議室505') {
+                                    noRoom = 505;
+                                }
+                                if (linecontents[4] === '会議室506') {
+                                    noRoom = 506;
+                                }
+                                if (linecontents[4] === '会議室507') {
+                                    noRoom = 507;
+                                }
+                                if (linecontents[4] === 'ミーティングR001') {
+                                    noRoom = 1;
+                                }
+                                if (linecontents[4] === 'ミーティングR002') {
+                                    noRoom = 2;
+                                }
+                                if (linecontents[4] === 'ミーティングR003') {
+                                    noRoom = 3;
+                                }
+                                if (linecontents[4] === 'ミーティングR004') {
+                                    noRoom = 4;
+                                }
+                                if (linecontents[4] === 'ミーティングR005') {
+                                    noRoom = 5;
+                                }
+                                if (linecontents[4] === 'プレゼンＲ') {
+                                    noRoom = 10;
+                                }
+                                if (linecontents[4] === 'プロジェクトR011') {
+                                    noRoom = 11;
+                                }
+                                if (linecontents[4] === 'プロジェクトR012') {
+                                    noRoom = 12;
+                                }
+                                if (linecontents[4] === 'プロジェクトR013') {
+                                    noRoom = 13;
+                                }
+                                if (linecontents[4] === 'プロジェクトR014') {
+                                    noRoom = 14;
+                                }
+                                if (linecontents[4] === 'プロジェクトR015') {
+                                    noRoom = 15;
+                                }
+                                inObj.no_room = noRoom;
                                 inObj.nm_disp = linecontents[13];
                                 inObj.time_riyou = linecontents[5];
                                 inObj.time_start = Number(linecontents[5].slice(0, 2));
@@ -252,9 +277,25 @@ const startcron = () => {
 
                                 // ファイル出力 利用日／名称／予約時間／開始時間／終了時間
                                 if (inObj.no_room !== '会議室401') {
-                                    dispyoyaku.insert(inObj, (err, retObj) => {
+                                    dispyoyaku.insert(inObj, (err) => {
                                         if (err) { throw err };
                                         logger.info(`登録予約情報：${inObj.ymd_riyou},${inObj.nm_room},${inObj.time_riyou}`);
+                                    });
+                                }
+
+                                // 当日予約（登録日＝利用日）の場合
+                                if (linecontents[0] === linecontents[1]) {
+                                    mailzumi.findOne(inObj, (err, retObj) => {
+                                        if (err) { throw err };
+                                        if (retObj[0].cnt === 0) {
+                                            // メール送信
+                                            mailsend.sendMail(inObj);
+                                            // メール送信済みへレコード追加
+                                            mailzumi.insert(inObj, (err) => {
+                                                if (err) { throw err };
+                                                logger.info(`メール送信済み予約情報：${inObj.ymd_riyou},${inObj.nm_room},${inObj.time_riyou}`);
+                                            });
+                                        }
                                     });
                                 }
                             }
@@ -263,8 +304,8 @@ const startcron = () => {
                     src.on("end", () => {
                         // 対象ファイルを処理した場合は対象ファイルをリネーム
                         fs.rename(
-                            dlpath + "\\" + targetfilename,
-                            dlpath + "\\" + targetfilename + ".old",
+                            `${dlpath}\\${targetfilename}`,
+                            `${dlpath}\\${targetfilename}.old`,
                             (err) => {
                                 if (err) {
                                     logger.info(`${targetfilename}ファイルは存在しません：${new Date()}`);
@@ -278,14 +319,14 @@ const startcron = () => {
         });
     });
 
-    const getCurrentYYYYMMDD = () => {
+    const getCurrentYyyymmdd = () => {
 
         const dt = new Date();
-        const curYYYY = dt.getFullYear();
-        const curMM = dt.getMonth();
-        const curDD = dt.getDate();
+        const curYyyy = dt.getFullYear();
+        const curMm = dt.getMonth();
+        const curDd = dt.getDate();
 
-        return "" + curYYYY + ("" + "0" + (curMM + 1)).slice(-2) + ("" + "0" + (curDD)).slice(-2);
+        return `${curYyyy}${(`0${curMm + 1}`).slice(-2)}${(`0${curDd}`).slice(-2)}`;
     }
 }
 

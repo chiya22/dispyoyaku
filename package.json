@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "lint": "biome lint -- apply <files>",
+    "format": "biome format <files> --write",
+    "check": "biome check --apply <files>"
   },
   "dependencies": {
     "basic-auth-connect": "^1.0.0",
@@ -21,6 +24,10 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
+    "nodemailer": "^6.10.0",
     "puppeteer": "^7.0.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
   }
 }

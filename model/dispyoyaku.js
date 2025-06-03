@@ -17,10 +17,10 @@ const findAll = (callback) => {
     })();
 };
 
-const findByTime= ( time_cur, callback) => {
+const findByTime= ( timeCur, callback) => {
     (async () => {
-        const query = 'SELECT ymd_riyou, nm_room, no_room, left(nm_disp,20) AS nm_disp, time_riyou, time_start, time_end, nm_riyousha FROM dispyoyakus where (time_start >= ' + Number(time_cur) + ') OR (time_end > ' + Number(time_cur) + ') ORDER BY time_start, time_end, no_room';
-        await logger.info('[' + time_cur + ']' + query);
+        const query = `SELECT ymd_riyou, nm_room, no_room, left(nm_disp,20) AS nm_disp, time_riyou, time_start, time_end, nm_riyousha FROM dispyoyakus where (time_start >= ${Number(timeCur)}) OR (time_end > ${Number(timeCur)}) ORDER BY time_start, time_end, no_room`;
+        await logger.info(`[${timeCur}]${query}`);
         await client.raw(query)
             .then((retObj) => {
                 callback(null, retObj);
@@ -33,8 +33,8 @@ const findByTime= ( time_cur, callback) => {
 
 const insert = (inObj, callback) => {
     (async () => {
-        const query = 'insert into dispyoyakus values ("' + inObj.ymd_riyou + '","' + inObj.nm_room + '",' + inObj.no_room + ',"' + inObj.nm_disp + '","' + inObj.time_riyou + '",' + inObj.time_start + ',' + inObj.time_end + ',"' + inObj.nm_riyousha + '")';
-        await logger.info('[' + inObj.nm_riyousha + ']' + query);
+        const query = `insert into dispyoyakus values ("${inObj.ymd_riyou}","${inObj.nm_room}",${inObj.no_room},"${inObj.nm_disp}","${inObj.time_riyou}",${inObj.time_start},${inObj.time_end},"${inObj.nm_riyousha}")`;
+        await logger.info(`[${inObj.nm_riyousha}]${query}`);
         await client.raw(query)
             .then((retObj) => {
                 callback(null, retObj[0]);

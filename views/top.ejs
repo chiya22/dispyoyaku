@@ -5,7 +5,10 @@
   <meta http-equiv="refresh" content="600;URL=/top" />
   <title>ご案内</title>
   <%- include("./common/stylesheets.ejs") %>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
 </head>
 
 <body>
@@ -38,7 +41,7 @@
                 </tr>
                 <% addrow=i * 14; %>
                   <% for (let j=0; j < 14; j++) { %>
-                    <% let cssname=(j % 2===0) ? 'item_2' :'item_3';%>
+                      <% let cssname=(j % 2===0) ? 'item_2' :'item_3';%>
                       <tr>
                         <td class="<%= cssname %>">
                           <%= yoyakus[j + addrow].nm_disp %>
@@ -116,23 +119,23 @@
                 </div>
                 <div class="waku_5">
                   <div class="item_4_5">5F</div>
-                  <div style="float: left; margin-left:20px; margin-right: 30px">
-                    <div style="margin-top:230px"></div>
-                    <table border="0" cellpadding="0" cellspacing="0">
+                  <!-- <div style="float: left; margin-left:20px; margin-right: 30px"> -->
+                    <!-- <div style="margin-top:230px"></div> -->
+                    <!-- <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td class="room_no">507</td>
                         <td class="reserve_time">
-                          <%= floor.room507.time %>
+                            <%= floor.room507.time %>
                         </td>
                       </tr>
                       <tr>
                         <td class="reserve_user" colspan="2">
-                          <%= floor.room507.nm_user %>
+                            <%= floor.room507.nm_user %>
                         </td>
                       </tr>
-                    </table>
-                  </div>
-                  <div style="float: left; margin-left:20px; margin-right: 20px">
+                    </table> -->
+                  <!-- </div> -->
+                  <div style="float: left; margin-left:240px; margin-right: 20px">
                       <!-- <div>&nbsp;</div> -->
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
@@ -286,7 +289,7 @@
                       </tr>
                     </table>
                     <div class="upd_prj">&nbsp;</div>
-                    <table border="0" cellpadding="0" cellspacing="0">
+                    <!-- <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td class="room_no_prj">015</td>
                         <td class="reserve_time_prj">
@@ -298,7 +301,7 @@
                           <%= floor.room015.nm_user %>
                         </td>
                       </tr>
-                    </table>
+                    </table> -->
                   </div>
                   <div style="float: left; margin-right: 20px">
                     <table border="0" cellpadding="0" cellspacing="0">
@@ -458,7 +461,7 @@
             </div>
           </section>
 
-          <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
           <script>
             let mySwiper = undefined;
             const winW = window.innerWidth;

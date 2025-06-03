@@ -1,12 +1,11 @@
 const log4js = require("log4js");
 const logger = log4js.configure('./config/log4js-config.json').getLogger();
 const express = require('express');
-const ExcelJS = require('exceljs');
+const excelJs = require('exceljs');
 const puppeteer = require("puppeteer");
 const iconv = require("iconv-lite");
-const fs = require("fs");
-const common = require("../util/common");
-
+const fs = require("node:fs");
+const common = require("../util/common.js");
 
 const router = express.Router();
 const dlpath = 'C:\\download\\dispyoyakuriyoustatus';
@@ -15,9 +14,9 @@ router.get('/', (req,res) => {
 
   const date = new Date();
   let tmp = '';
-  tmp = '' + date.getFullYear();
-  tmp += '' + ('0' + (date.getMonth() + 1)).slice(-2);
-  tmp += '' + ('0' + date.getDate()).slice(-2);
+  tmp = `${date.getFullYear()}`;
+  tmp += `${(`0${date.getMonth() + 1}`).slice(-2)}`;
+  tmp += `${(`0${date.getDate()}`).slice(-2)}`;
   
   res.render('dlriyoustatus', {
     target_yyyymmdd: tmp
@@ -44,10 +43,10 @@ router.post('/', (req, res) => {
         '--single-process'
     ]});
 
-    let page = await browser.newPage();
+    const page = await browser.newPage();
 
-    const URL = process.env.YOYAKU_URL;
-    await page.goto(URL, { waitUntil: "domcontentloaded" });
+    const url = process.env.YOYAKU_URL;
+    await page.goto(url, { waitUntil: "domcontentloaded" });
 
     // ログイン
     await page.type('input[name="in_office"]', process.env.YOYAKU_LOGIN_ID);
@@ -70,7 +69,7 @@ router.post('/', (req, res) => {
     await setTimeout(2000);
 
     // 新しく開いたページを取得
-    let newPage = await getNewPage(page);
+    const newPage = await getNewPage(page);
 
     // パスワードの設定
     await newPage.type('input[name="in_managerpassword"]', process.env.YOYAKU_LOGIN_PASSWORD);
@@ -97,7 +96,7 @@ router.post('/', (req, res) => {
     await setTimeout(2000);
 
     // 新しく開いたページを取得
-    let newPageTouroku = await getNewPage(newPage);
+    const newPageTouroku = await getNewPage(newPage);
 
     // Promptが出たら必ずOKとする
     newPageTouroku.on('dialog', async dialog => {
@@ -105,15 +104,15 @@ router.post('/', (req, res) => {
     });
 
     // 対象日付に画面より渡された日付（yyyymmdd形式）を設定
-    const currentYYYYMMDD = req.body.target_yyyymmdd;
-    const inYYYY = currentYYYYMMDD.slice(0,4)
-    const inMM = currentYYYYMMDD.slice(4, 6)
-    const in_DD = currentYYYYMMDD.slice(-2);
+    const currentYyyymmdd = req.body.target_yyyymmdd;
+    const inYyyy = currentYyyymmdd.slice(0,4)
+    const inMm = currentYyyymmdd.slice(4, 6)
+    const inDd = currentYyyymmdd.slice(-2);
 
     // 開始へ設定する年月
-    await newPageTouroku.select('select[name="in_month"]', inYYYY + "-" + inMM);
-    await newPageTouroku.select('select[name="in_sday"]', "" + Number(in_DD));
-    await newPageTouroku.select('select[name="in_eday"]', "" + Number(in_DD));
+    await newPageTouroku.select('select[name="in_month"]', `${inYyyy}-${inMm}`);
+    await newPageTouroku.select('select[name="in_sday"]', `${Number(inDd)}`);
+    await newPageTouroku.select('select[name="in_eday"]', `${Number(inDd)}`);
     // await newPageTouroku.select('select[name="end_y"]', '2020');
     // await newPageTouroku.select('select[name="end_m"]', '12');
 
@@ -134,12 +133,12 @@ router.post('/', (req, res) => {
     await setTimeout(2000);
 
     // 新しく開いたページを取得
-    let newPageResult = await getNewPage(newPageTouroku);
+    const newPageResult = await getNewPage(newPageTouroku);
 
-    const a_tag = await newPageResult.$('a');
+    const aTag = await newPageResult.$('a');
     const hrefs = await newPageResult.$$eval('a', anchors => anchors.map(anchor => anchor.href));
-    dlFilename = hrefs[0].split("/").slice(-1);
-    if (a_tag) {
+    const dlFilename = hrefs[0].split("/").slice(-1);
+    if (aTag) {
         await logger.info(`予約情報をダウンロードしました：${new Date()}`);
 
         // ダウンロード先の設定
@@ -147,7 +146,7 @@ router.post('/', (req, res) => {
             'Page.setDownloadBehavior',
             { behavior: 'allow', downloadPath: dlpath }
         );
-        await a_tag.click();
+        await aTag.click();
         // await page.waitForTimeout(10000);
         await setTimeout(10000);
 
@@ -161,24 +160,25 @@ router.post('/', (req, res) => {
 
     // テンプレートより新しいワークブック（利用状況表）を作成
     const templatePath = 'public/template/riyoustatus.xlsx';
-    const workbook = new ExcelJS.Workbook();
+    const workbook = new excelJs.Workbook();
     await workbook.xlsx.readFile(templatePath);
 
     // タイトル設定
     const worksheet = workbook.getWorksheet('main');
 
-    const youbi = common.getYoubi(new Date(inYYYY, inMM-1, in_DD))
-    worksheet.getCell('A1').value = `${currentYYYYMMDD.slice(0, 4)}年${currentYYYYMMDD.slice(4, 6)}月${currentYYYYMMDD.slice(-2)}日(${youbi}) 会議室予約状況`;
-    worksheet.getCell('A41').value = `${currentYYYYMMDD.slice(0, 4)}年${currentYYYYMMDD.slice(4, 6)}月${currentYYYYMMDD.slice(-2)}日(${youbi}) 会議室予約状況`;
+    const youbi = common.getYoubi(new Date(inYyyy, inMm-1, inDd))
+    worksheet.getCell('A1').value = `${currentYyyymmdd.slice(0, 4)}年${currentYyyymmdd.slice(4, 6)}月${currentYyyymmdd.slice(-2)}日(${youbi}) 会議室予約状況`;
+    worksheet.getCell('A41').value = `${currentYyyymmdd.slice(0, 4)}年${currentYyyymmdd.slice(4, 6)}月${currentYyyymmdd.slice(-2)}日(${youbi}) 会議室予約状況`;
     
     // ダウンロードファイルから取得した情報をもとに利用状況表を作成
     // ダウンロードしたファイルを読み込み
-    const file = fs.readFileSync(dlpath + "\\" + dlFilename);
+    const file = fs.readFileSync(`${dlpath}\\${dlFilename}`);
     const data = iconv.decode(Buffer.from(file), "Shift_JIS");
     const lines = data.split("\n");
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     lines.forEach((line) => {
-      let linecontents = line.split(",");
+      const linecontents = line.split(",");
 
       if (linecontents[0] !== "登録日" && linecontents[0] !== "") {
         
@@ -193,8 +193,8 @@ router.post('/', (req, res) => {
         let targetCell
         // 対象会議室の行数を取得
         row = getRowNumByRoomname(roomName)+1
-        startCol = (parseInt(startTime)-9)+3; // 開始時間の列の位置
-        endCol = (parseInt(endTime)-10)+3 // 終了時間の列の位置
+        startCol = (Number.parseInt(startTime)-9)+3; // 開始時間の列の位置
+        endCol = (Number.parseInt(endTime)-10)+3 // 終了時間の列の位置
         for (let i = startCol; endCol >= i; i++) {
           targetCell = r1c1ToA1(row, i);
           worksheet.getCell(targetCell).value = riyoumokuteki;
@@ -204,11 +204,11 @@ router.post('/', (req, res) => {
 
     // マージ
     // 1ページ目部分
-    for (let row = 6; 38 >= row ; row++) {
+    for (let row = 6; row <= 38 ; row++) {
       rowMergeProc(worksheet, row)
     }
     // 2ページ目部分
-    for (let row = 45; 54 >= row ; row++) {
+    for (let row = 45; row <= 54 ; row++) {
       rowMergeProc(worksheet, row)
     }
 
@@ -247,45 +247,65 @@ router.post('/', (req, res) => {
     function getRowNumByRoomname(roomName) {
       if (roomName === '会議室500') {
         return 5;
-      } else if (roomName === '会議室501') {
+      }
+      if (roomName === '会議室501') {
         return 7;
-      } else if (roomName === '会議室502') {
+      }
+      if (roomName === '会議室502') {
         return 9;
-      } else if (roomName === '会議室503') {
+      }
+      if (roomName === '会議室503') {
         return 11;
-      } else if (roomName === '会議室504') {
+      }
+      if (roomName === '会議室504') {
         return 13;
-      } else if (roomName === '会議室505') {
+      }
+      if (roomName === '会議室505') {
         return 15;
-      } else if (roomName === '会議室506') {
+      }
+      if (roomName === '会議室506') {
         return 17;
-      } else if (roomName === '会議室507') {
+      }
+      if (roomName === '会議室507') {
         return 19;
-      } else if (roomName === '会議室401') {
+      }
+      if (roomName === '会議室401') {
         return 22;
-      } else if (roomName === '会議室402') {
+      }
+      if (roomName === '会議室402') {
         return 24;
-      } else if (roomName === 'ミーティングR001') {
+      }
+      if (roomName === 'ミーティングR001') {
         return 27;
-      } else if (roomName === 'ミーティングR002') {
+      }
+      if (roomName === 'ミーティングR002') {
         return 29;
-      } else if (roomName === 'ミーティングR003') {
+      }
+      if (roomName === 'ミーティングR003') {
         return 31;
-      } else if (roomName === 'ミーティングR004') {
+      }
+      if (roomName === 'ミーティングR004') {
         return 33;
-      } else if (roomName === 'ミーティングR005') {
+      }
+      if (roomName === 'ミーティングR005') {
         return 35;
-      } else if (roomName === 'プレゼンＲ') {
+      }
+      if (roomName === 'プレゼンＲ') {
         return 37;
-      } else if (roomName === 'プロジェクトR011') {
+      }
+      if (roomName === 'プロジェクトR011') {
         return 45;
-      } else if (roomName === 'プロジェクトR012') {
+      }
+      if (roomName === 'プロジェクトR012') {
         return 47;
-      } else if (roomName === 'プロジェクトR013') {
+      }
+      if (roomName === 'プロジェクトR013') {
         return 49;
-      } else if (roomName === 'プロジェクトR014') {
+      }
+      if (roomName === 'プロジェクトR014') {
         return 51;
-      } else if (roomName === 'プロジェクトR015') {
+      }
+      if (roomName === 'プロジェクトR015') {
         return 53;
       }
     }
@@ -296,10 +316,11 @@ router.post('/', (req, res) => {
     function r1c1ToA1(r, c) {
       const columnLetter = (col) => {
           let letter = '';
-          while (col > 0) {
-              const mod = (col - 1) % 26;
+          let colparam = col
+          while (colparam > 0) {
+              const mod = (colparam - 1) % 26;
               letter = String.fromCharCode(65 + mod) + letter;
-              col = Math.floor((col - mod) / 26);
+              colparam = Math.floor((colparam - mod) / 26);
           }
       return letter;
       };
@@ -318,14 +339,12 @@ router.post('/', (req, res) => {
       let key = null;
       let startCell = "";
       let endCell = ""
-      let startCell_head = "";
-      let endCell_head = ""
-  
-      // 1行の処理
-      startCol = 3
+      let startCellHead = "";
+      let endCellHead = ""
+      let startCol = 3
   
       // 9:00（3列目）から22:00（16列目）までのループ
-      for (let col = 3; 16 >= col; col++) {
+      for (let col = 3; col <= 16 ; col++) {
 
         key = worksheet.getCell(row, col).value
         
@@ -334,9 +353,9 @@ router.post('/', (req, res) => {
 
             // マージ
             // 利用者名の上のセル（背景色黒）
-            startCell_head = r1c1ToA1(row-1, startCol);
-            endCell_head = r1c1ToA1(row-1,col -1);
-            worksheet.mergeCells(`${startCell_head}:${endCell_head}`);
+            startCellHead = r1c1ToA1(row-1, startCol);
+            endCellHead = r1c1ToA1(row-1,col -1);
+            worksheet.mergeCells(`${startCellHead}:${endCellHead}`);
             // 利用者名のセル
             startCell = r1c1ToA1(row,startCol);
             endCell = r1c1ToA1(row,col -1);

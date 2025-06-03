@@ -1,15 +1,15 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+const path = require('node:path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const indexRouter = require('./routes/index');
-const topRouter = require('./routes/top');
-const dlriyoustatusRouter = require('./routes/dlriyoustatus');
+const indexRouter = require('./routes/index.js');
+const topRouter = require('./routes/top.js');
+const dlriyoustatusRouter = require('./routes/dlriyoustatus.js');
 
-let app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +19,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/static', express.static(__dirname + '/public'));
+app.use('/static', express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
@@ -30,12 +30,12 @@ const cron = require('./util/cron')
 cron.startcron();
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
