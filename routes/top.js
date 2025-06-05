@@ -148,7 +148,7 @@ router.get('/', (req, res) => {
       })
     }
 
-    const yoyakusAll = yoyakus.filter(yoyaku => yoyaku.nm_room !== '会議室507');
+    const yoyakusAll = yoyakus.filter(yoyaku => yoyaku.nm_room !== '');
     const page = Math.ceil(yoyakusAll.length / 14);
     const yoyakurowcount = yoyakusAll.length;
     const rowcount = page * 14;
