@@ -5,9 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const indexRouter = require('./routes/index.js');
-const topRouter = require('./routes/top.js');
-const dlriyoustatusRouter = require('./routes/dlriyoustatus.js');
+const indexRouter = require('./routes/index');
+const topRouter = require('./routes/top');
 
 const app = express();
 
@@ -24,7 +23,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 app.use('/top', topRouter);
-app.use('/dlriyoustatus', dlriyoustatusRouter);
 
 const cron = require('./util/cron')
 cron.startcron();
