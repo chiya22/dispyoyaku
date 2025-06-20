@@ -19,7 +19,7 @@ const findAll = (callback) => {
 
 const findOne= ( inObj, callback) => {
     (async () => {
-        const query = `SELECT count(*) as cnt from mailzumis where ymd_riyou = "${inObj.ymd_riyou}" and nm_room = "${inObj.nm_room}" and no_room = ${inObj.no_room} and nm_disp = "${inObj.nm_disp}" and time_riyou = "${inObj.time_riyou}" and time_start = ${inObj.time_start} and time_end = ${inObj.time_end} and nm_riyousha = "${inObj.nm_riyousha}"`;
+        const query = `SELECT count(*) as cnt from mailzumis where ymd_riyou = "${inObj.ymd_riyou}" and nm_room = "${inObj.nm_room}" and no_room = ${inObj.no_room} and time_riyou = "${inObj.time_riyou}" and time_start = ${inObj.time_start} and time_end = ${inObj.time_end} and nm_riyousha = "${inObj.nm_riyousha}"`;
         // await logger.info(`${query}`);
         await client.raw(query)
             .then((retObj) => {
