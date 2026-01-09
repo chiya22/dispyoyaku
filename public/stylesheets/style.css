@@ -205,7 +205,8 @@ body {
 
 .item_5_1 { /*地下左上表示枠 */
 	text-align: center;
-	padding: 3px;
+	padding-top: 3px;
+	padding-bottom: 5px;
 	height: 27px;
 	width: 60px;
 	margin-top: -20px;
@@ -274,7 +275,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	height: 25px;
-	width: 80px;
+	width: 85px;
 }
 .reserve_user_prj {
 	font-size: 14px;
@@ -285,7 +286,7 @@ body {
 	padding: 3px;
 	padding-top: 5px;
 	height: 30px;
-	width: 115px;
+	width: 120px;
 	line-height: 14px;
 }
 
