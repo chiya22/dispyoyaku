@@ -132,6 +132,10 @@ const startcron = () => {
 
             } else {
                 await logger.info(`予約情報がありませんでした：${new Date()}`);
+                // 既存の予約情報をすべて削除する
+                dispyoyaku.deleteAll((err) => {
+                    if (err) { throw err };
+                });
             }
 
             /**
