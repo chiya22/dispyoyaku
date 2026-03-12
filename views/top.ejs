@@ -277,14 +277,11 @@
                   <div style="float: left; margin-right: 10px">
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td class="room_no_prj">012</td>
-                        <td class="reserve_time_prj">
-                          <%= floor.room012.time %>
-                        </td>
+                        <td>  </td>
+                        <td>  </td>
                       </tr>
                       <tr>
-                        <td class="reserve_user_prj" colspan="2">
-                          <%= floor.room012.nm_user %>
+                        <td class="reserve_user_prj_black" colspan="2">
                         </td>
                       </tr>
                     </table>
@@ -472,7 +469,8 @@
             const swiperSlide = document.getElementsByClassName("swiper-slide");
             const options = {
               autoplay: {
-                delay: 10000,
+//                delay: 10000,
+                delay: 3000,
               },
               loop: true, // 最後のスライドまで到達した場合、最初に戻らずに続けてスライド可能にするか。
               speed: 1500, // スライドが切り替わるトランジション時間(ミリ秒)。
